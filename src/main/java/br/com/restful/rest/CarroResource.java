@@ -12,6 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.com.restful.model.Carro;
 import br.com.restful.model.Response;
 import br.com.restful.service.CarroService;
@@ -20,9 +23,11 @@ import br.com.restful.service.CarroService;
 @Path("/carros")
 @Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON+";charset=utf-8")
+@Component
 public class CarroResource {
 
-	private CarroService carroService = new CarroService();
+	@Autowired
+	private CarroService carroService;
 	
 	@GET
 	public List<Carro> get() {

@@ -4,13 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.com.restful.dao.CarroDAO;
 import br.com.restful.model.Carro;
 
-
+@Component
 public class CarroService {
 	
-	private CarroDAO db =  new CarroDAO();
+	@Autowired
+	private CarroDAO db;
 	
 	public List<Carro> getCarros(){
 		try{

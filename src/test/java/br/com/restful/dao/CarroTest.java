@@ -1,19 +1,24 @@
 package br.com.restful.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
 import org.junit.Test;
 
 import br.com.restful.model.Carro;
 import br.com.restful.service.CarroService;
+import br.com.restful.util.SpringUtil;
+import junit.framework.TestCase;
 
-public class CarroTest {
+public class CarroTest extends TestCase{
 	
-	private CarroService service = new CarroService();
+	private CarroService service;
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		//Cria o "bean" pelo Spring
+		service = (CarroService) SpringUtil.getInstance().getBean(CarroService.class);
+	}
 
 	@Test
 	public void testeListaDeCarros(){

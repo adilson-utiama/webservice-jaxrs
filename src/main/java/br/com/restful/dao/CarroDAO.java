@@ -8,8 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import br.com.restful.model.Carro;
 
+@Component
 public class CarroDAO {
 
 	private Connection con;
