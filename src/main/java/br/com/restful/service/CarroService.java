@@ -1,75 +1,51 @@
 package br.com.restful.service;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.restful.dao.CarroDAO;
 import br.com.restful.model.Carro;
 
 @Component
 public class CarroService {
-	
+
 	@Autowired
 	private CarroDAO db;
-	
-	public List<Carro> getCarros(){
-		try{
-			List<Carro> carros = db.getCarros();
-			return carros;
-		} catch (SQLException e){
-			e.printStackTrace();
-			return new ArrayList<Carro>();
-		}
+
+	// Lista todos os carros do banco de dados
+	public List<Carro> getCarros() {
+		List<Carro> carros = db.getCarros();
+		return carros;
 	}
-	
-	public Carro getCarro(Long id){
-		try{
-			return db.getCarroById(id);
-		} catch (SQLException e){
-			e.printStackTrace();
-			return null;
-		}
-	} 
-	
-	public boolean delete(Long id){
-		try{
-			return db.delete(id);
-		} catch (SQLException e){
-			e.printStackTrace();
-			return false;
-		}
+
+	// Busca um carro pelo id
+	public Carro getCarro(Long id) {
+		return db.getCarroById(id);
 	}
-	
-	public boolean save(Carro carro){
-		try{
-			db.save(carro);
-			return true;
-		} catch (SQLException e){
-			e.printStackTrace();
-			return false;
-		}
+
+	// Deleta o carro pelo id
+	@Transactional(rollbackFor = Exception.class)
+	public boolean delete(Long id) {
+		return db.delete(id);
 	}
-	
-	public List<Carro> findByName(String nome){
-		try{
-			return db.findByName(nome);
-		} catch (SQLException e){
-			e.printStackTrace();
-			return null;
-		}
+
+	// Salva ou atualiza o carro
+	@Transactional(rollbackFor = Exception.class)
+	public boolean save(Carro carro) {
+		db.saveOrUpdate(carro);
+		return true;
 	}
-	
-	public List<Carro> findByTipo(String tipo){
-		try{
-			return db.findByTipo(tipo);
-		} catch (SQLException e){
-			e.printStackTrace();
-			return null;
-		}
+
+	// Busca o carro pelo nome
+	public List<Carro> findByName(String name) {
+		return db.findByName(name);
+	}
+
+	public List<Carro> findByTipo(String tipo) {
+		return db.findByTipo(tipo);
 	}
 
 }

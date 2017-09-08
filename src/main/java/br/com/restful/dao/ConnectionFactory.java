@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
+	
+	//Nao mais usado
 	public Connection getConnection(){
 		
 		try {
