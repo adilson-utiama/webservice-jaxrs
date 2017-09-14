@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import br.com.restful.model.Carro;
 import br.com.restful.model.Response;
 import br.com.restful.service.CarroService;
+import br.com.restful.service.UploadService;
 
 
 @Path("/carros")
@@ -36,6 +37,9 @@ public class CarrosResource {
 
 	@Autowired
 	private CarroService carroService;
+	
+	@Autowired
+	private UploadService uploadService;
 	
 	@GET
 	public List<Carro> get() {
@@ -96,19 +100,10 @@ public class CarrosResource {
 					//Salva o arquivo
 					String fileName = field.getFormDataContentDisposition().getFileName();
 					
-					//Pasta temporaria da JVM
-					File tmpDir = new File(System.getProperty("java.io.tmpDir"), "carros");
-					if(!tmpDir.exists()) {
-						//Cria a pasta carros se nao existir
-						tmpDir.mkdir();
-					}
-					//Cria o arquivo
-					File file = new File(tmpDir, fileName);
-					FileOutputStream out = new FileOutputStream(file);
-					IOUtils.copy(inputStream, out);
-					IOUtils.closeQuietly(out);
-					System.out.println("Arquivo: " + file.getAbsolutePath());
-					return Response.OK("Arquivo recebido com sucesso!");
+					//faz a gravaçao do arquivo
+					String path = uploadService.upload(fileName, inputStream);
+					System.out.println("Arquivo: " + path);
+					return Response.OK("Arquivo " + fileName + " recebido com sucesso!");
 				} catch(IOException e) {
 					e.printStackTrace();
 					return Response.ERROR("Erro ao envia arquivo!");
